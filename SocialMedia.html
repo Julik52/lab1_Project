@@ -1,0 +1,208 @@
+<!DOCTYPE html> 
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мій сайт-візитка</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Zen+Kurenaido&display=swap");
+    body {
+      background: #e3e0d1 url("https://www.transparenttextures.com/patterns/paper.png");
+      color: #3b4d38;
+      font-family: "Noto Serif JP", serif;
+      text-align: center;
+      padding: 20px;
+      transition: 0.3s;
+    }
+    body.dark {
+      background: #1c1c1c;
+      color: #f1f1f1;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+      border: 2px solid #5a6b50;
+      border-radius: 10px;
+      background: #f8f6f0;
+      box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+    }
+    body.dark .container {
+      background: #2c2c2c;
+      border-color: #ccc;
+    }
+    h1 {
+      font-family: "Zen Kurenaido", sans-serif;
+      text-transform: uppercase;
+      font-size: 26px;
+      margin-bottom: 20px;
+      color: #4f5d46;
+    }
+    body.dark h1 {
+      color: #e0e0e0;
+    }
+    /* Вкладки */
+    .tabs {
+      margin-bottom: 20px;
+    }
+    .tabs button {
+      margin: 5px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      background: #5a6b50;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .tabs button:hover {
+      background: #3b4d38;
+    }
+    /* Контент вкладок */
+    .tab-content {
+      display: none;
+      padding: 15px;
+      border-top: 1px solid #aaa;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    /* Лінки */
+    .links a {
+      display: block;
+      margin: 10px;
+      padding: 12px;
+      background: #5a6b50;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+    .links a:hover {
+      background: #f8f6f0;
+      color: #5a6b50;
+      border: 2px solid #5a6b50;
+    }
+    /* Форма */
+    input, textarea {
+      width: 90%;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #5a6b50;
+    }
+    button.send {
+      background: #4f5d46;
+      color: #fff;
+      font-weight: bold;
+    }
+    button.send:hover {
+      background: #3b4d38;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Мій сайт-візитка</h1>
+
+    <!-- Кнопка теми -->
+    <button id="themeBtn" onclick="toggleTheme()">🌗 Перемкнути тему</button>
+
+    <!-- Меню вкладок -->
+    <div class="tabs">
+      <button onclick="openTab('links')">🌐 Соцмережі</button>
+      <button onclick="openTab('about')">👤 Про мене</button>
+      <button onclick="openTab('contact')">📩 Контакти</button>
+    </div>
+
+    <!-- Вміст вкладок -->
+    <div id="links" class="tab-content active">
+      <h2>Мої соцмережі</h2>
+      <div class="links">
+        <a href="https://www.instagram.com/lofigirl/" target="_blank">Instagram</a>
+        <a href="https://x.com/literallymecats" target="_blank">Twitter</a>
+        <a href="https://youtu.be/dQw4w9WgXcQ" target="_blank">YouTube</a>
+      </div>
+    </div>
+
+    <div id="about" class="tab-content">
+      <h2>Про мене</h2>
+      <p>Привіт 👋 Я зробила цей сайт як невелику візитку. Тут ви знайдете мої соцмережі та контакти.</p>
+      <p>Але чи насправді цей сайт такий звичайний?</p>
+    </div>
+
+    <div id="contact" class="tab-content">
+      <h2>Зв'язатися зі мною</h2>
+      <form>
+        <input type="text" placeholder="Ваше ім’я"><br>
+        <input type="email" placeholder="Ваш email"><br>
+        <textarea placeholder="Ваше повідомлення"></textarea><br>
+        <button type="button" class="send" onclick="sendMessage()">Надіслати</button>
+      </form>
+      <p id="form-msg" style="color:red;"></p>
+    </div>
+  </div>
+
+  <script>
+    let secretMode = false;
+
+    function toggleTheme() {
+      if (secretMode) return; 
+      document.body.classList.toggle("dark");
+    }
+
+    function openTab(tabId) {
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(c => c.classList.remove('active'));
+
+      if (secretMode) {
+        const random = Math.floor(Math.random() * contents.length);
+        contents[random].classList.add('active');
+        return;
+      }
+
+      if (Math.random() < 0.05) return; 
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    function sendMessage() {
+      const msg = document.getElementById("form-msg");
+      msg.textContent = "Дякую, ваше повідомлення надіслано ✅ (насправді ні 😅)";
+    }
+
+    document.addEventListener("keydown", e => {
+      if (e.altKey && e.key === "7" && !secretMode) {
+        secretMode = true;
+        document.body.style.background = "lime";
+        document.querySelectorAll(".links a").forEach(a => a.href = "#");
+        alert("😈 Секретний режим активовано! Тепер сайт незручний.");
+      }
+    });
+
+    const themeBtn = document.getElementById("themeBtn");
+    let holdTimer;
+    themeBtn.addEventListener("mousedown", () => {
+      holdTimer = setTimeout(() => {
+        document.body.style.filter = "grayscale(100%)";
+      }, 5000);
+    });
+    themeBtn.addEventListener("mouseup", () => clearTimeout(holdTimer));
+
+    let secretClicks = 0;
+    document.querySelector(".container").addEventListener("click", e => {
+      if (e.target.classList.contains("container")) {
+        secretClicks++;
+        if (secretClicks >= 3) {
+          secretClicks = 0;
+          const secretTab = document.createElement("div");
+          secretTab.classList.add("tab-content", "active");
+          secretTab.innerHTML = "<h2>???</h2><p>Ти не мав це бачити...</p>";
+          document.querySelector(".container").appendChild(secretTab);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
